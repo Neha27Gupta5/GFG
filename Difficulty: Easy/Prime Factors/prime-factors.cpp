@@ -9,31 +9,33 @@ using namespace std;
 
 class Solution{
 	public:
-bool prime(int n) {
-    if (n < 2) return false;
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0) {
-            return false;
-        }
-    }
-    return true;
-}
-
-vector<int> AllPrimeFactors(int n) {
-    vector<int> ans;
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0 && prime(i)) {
-            ans.push_back(i);
-            while (n % i == 0) {
-                n = n / i;
-            }
-        }
-    }
-    if (n > 1) {
+	bool isPrime(int n){
+	    if (n <= 1) return false;
+	    for(int i=2;i*i<=n;i++){
+	        if(n%i==0) return false;
+	    }
+	    return true;
+	}
+	vector<int>AllPrimeFactors(int n) {
+	    vector<int>ans;
+	    
+	    for(int i=2;i*i<=n;i++){
+	        if(n%i==0){
+	            if(isPrime(i)){
+	                ans.push_back(i);
+	               while(n%i==0){
+	                   n=n/i;
+	               }
+	            }
+	        }
+	    }
+	    
+	    if (n > 1 && isPrime(n)) {
         ans.push_back(n);
     }
-    return ans;
-}
+    
+	    return ans;
+	}
 };
 
 //{ Driver Code Starts.
