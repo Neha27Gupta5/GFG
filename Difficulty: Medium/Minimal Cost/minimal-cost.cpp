@@ -6,38 +6,30 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-   int solve(vector<int>& arr, vector<int>& dp, int k, int i, int n) {
-
-    if (i == n - 1) {
-        return 0;
-    }
-
- 
-    if (dp[i] != -1) {
-        return dp[i];
-    }
-
-    int mini = INT_MAX;
-
-   
-    for (int step = 1; step <= k; step++) {
-        if (i + step < n) {
-         
-            int cost = abs(arr[i + step] - arr[i]) + solve(arr, dp, k, i + step, n);
-            mini = min(mini, cost);
+    int solve(int k,vector<int>&arr,int i,vector<int>&dp){
+        if(i==0){
+            return 0;
         }
+        if(i<0){
+            return INT_MAX;
+        }
+        if(dp[i]!=-1){
+            return dp[i];
+        }
+        int mini=INT_MAX;
+        for(int s=1;s<=k;s++){
+            int cost=solve(k,arr,i-s,dp);
+            if(i-s>=0){
+                cost+=abs(arr[i]-arr[i-s]);
+            }
+            mini=min(mini,cost);
+        }
+        return dp[i]=mini;
     }
-
-
-    return dp[i] = mini;
-}
-
-int minimizeCost(int k, vector<int>& arr) {
-    int n = arr.size();
-    vector<int> dp(n, -1);  
-    return solve(arr, dp, k, 0, n); 
-}
-
+    int minimizeCost(int k, vector<int>& arr) {
+        vector<int>dp(arr.size(),-1);
+       return solve(k,arr,arr.size()-1,dp);
+    }
 };
 
 //{ Driver Code Starts.
