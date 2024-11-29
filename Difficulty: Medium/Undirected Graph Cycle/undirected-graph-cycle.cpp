@@ -32,19 +32,52 @@ class Solution {
     return false; 
 }
 
+// bool isCycle(vector<vector<int>>& adj) {
+//     int n = adj.size();
+//     vector<int> vis(n, 0);
+
+//     for (int i = 0; i < n; i++) {
+//         if (!vis[i]) {
+//             if (bfs(i, adj, vis)) {
+//                 return true;
+//             }
+//         }
+//     }
+//     return false;
+// }
+
+bool dfs(int node, int parent, vector<vector<int>>& adj, vector<int>& vis) {
+    vis[node] = 1; // Mark the current node as visited
+
+    for (auto it : adj[node]) {
+        if (vis[it] == 1 && it != parent) {
+            // A visited neighbor that is not the parent indicates a cycle
+            return true;
+        } else if (vis[it] == 0) {
+            // If the neighbor is not visited, perform DFS on it
+            if (dfs(it, node, adj, vis)) {
+                return true;
+            }
+        }
+    }
+
+    return false; // No cycle found
+}
+
 bool isCycle(vector<vector<int>>& adj) {
     int n = adj.size();
     vector<int> vis(n, 0);
 
     for (int i = 0; i < n; i++) {
         if (!vis[i]) {
-            if (bfs(i, adj, vis)) {
+            if (dfs(i, -1, adj, vis)) { // Use DFS instead of BFS
                 return true;
             }
         }
     }
     return false;
 }
+
 
 };
 
